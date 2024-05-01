@@ -133,8 +133,8 @@ xhr1.send();
 			    mainstr += "<div class='Home_card'><h1 class='textpad'><a style='color: #fff; font-weight: normal'>" + words[i].su + "</a>&nbsp;&nbsp;"+"<a style='font-size: 3rem'>" + words[i].tay + "</a>&nbsp;&nbsp;"+"<a class='readblock' style='cursor: pointer;color: #31d0f5' onclick=phonetics('"+words[i].su+"')>🔊</a></h1>";
                 
 		
-                mainstr += "<br/><p class='Home_description'>➢&nbsp;&nbsp;&nbsp;&nbsp;" + words[i].viet + "</p>";
-                mainstr += "<br/><p class='Home_description'>➢&nbsp;&nbsp;&nbsp;&nbsp;" + words[i].siam + "</p>";
+                mainstr += "<br/><p class='Home_description'>🇻🇳&nbsp;&nbsp;&nbsp;&nbsp;" + words[i].viet + "</p>";
+                mainstr += "<br/><p class='Home_description'>🇹🇭&nbsp;&nbsp;&nbsp;&nbsp;" + words[i].siam + "</p>";
                 mainstr += "</div>";
             }
             document.getElementById("maincontent").innerHTML =  (mainstr);
@@ -494,6 +494,8 @@ src: url('../fonts/Tai-Muong-Lay.ttf') format('truetype')
 ;
 font-display: swap;
 }
+	    h1 {padding: 1px;margin: 1px;
+	    }
 	    
         body {
               padding: 0;margin: 0;color: #fff;background: #031000;
@@ -524,10 +526,10 @@ font-display: swap;
             min-height: 97vh;padding: 5px 0;display: flex;flex-direction: column;justify-content: flex-start;align-items: center;
         }
         .Home_description {
-            text-align: center; line-height: 1.5; font-size: 2rem;
+            text-align: center; line-height: 0; font-size: 1.5rem;
         }
         .Home_card {
-            margin: 5px;flex-basis: 45%;padding: 2rem;text-align: left;color: inherit;text-decoration: none;border: 1px solid #eaeaea;border-radius: 6px;transition: color 0.15s ease, border-color 0.15s ease;font-size:2rem;
+            margin: 0px;flex-basis: 45%;padding: 1rem;text-align: left;color: inherit;text-decoration: none;border: 1px solid #eaeaea;border-radius: 6px;transition: color 0.15s ease, border-color 0.15s ease;font-size:2rem;
         }
         .Home_card a {
             text-decoration: none;color: #ff9900; font-weight: bold;cursor:text;
