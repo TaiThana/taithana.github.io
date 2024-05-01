@@ -130,7 +130,7 @@ xhr1.send();
         if (words != null) {
             var mainstr = "";
             for (var i=0; i<words.length; i++) {
-			    mainstr += "<div class='Home_card'><h1 class='textpad'><a style='color: #fff; font-weight: normal'>" + words[i].su + "</a>&nbsp;&nbsp;"+"<a style='font-size: 3rem'>" + words[i].tay + "</a>&nbsp;&nbsp;"+"<a class='readblock' style='cursor: pointer;color: #31d0f5' onclick=phonetics('"+words[i].su+"')>🔊</a></h1>";
+			    mainstr += "<div class='Home_card'><h1 class='textpad'><a style='color: #fff; font-weight: normal'>" + words[i].su + "</a>&nbsp;&nbsp;"+"<a style='font-size: 2rem'>" + words[i].tay + "</a>&nbsp;&nbsp;"+"<a class='readblock' style='cursor: pointer;color: #31d0f5' onclick=phonetics('"+words[i].su+"')>🔊</a></h1>";
                 
 		
                 mainstr += "<br/><p class='Home_description'>🇻🇳&nbsp;&nbsp;&nbsp;&nbsp;" + words[i].viet + "</p>";
@@ -529,7 +529,7 @@ font-display: swap;
             text-align: center; line-height: 0; font-size: 1.5rem;
         }
         .Home_card {
-            margin: 0px;flex-basis: 45%;padding: 1rem;text-align: left;color: inherit;text-decoration: none;border: 1px solid #eaeaea;border-radius: 6px;transition: color 0.15s ease, border-color 0.15s ease;font-size:2rem;
+            margin: 0px;flex-basis: 45%;padding: 1rem;text-align: left;color: inherit;text-decoration: none;border: 1px solid #eaeaea;border-radius: 6px;transition: color 0.15s ease, border-color 0.15s ease;font-size:1rem;
         }
         .Home_card a {
             text-decoration: none;color: #ff9900; font-weight: bold;cursor:text;
