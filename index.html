@@ -31,7 +31,7 @@ var inputID = new URLSearchParams(window.location.search).get("i");
     xhr.onload = function (e) {
         var uInt8Array = new Uint8Array(this.response);
         condb = new SQL.Database(uInt8Array);
-        contents = condb.exec("SELECT * FROM taydon where roma='phãn' ");
+        contents = condb.exec("SELECT * FROM taydon where tay='phắc' ");
         // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
         console.log(contents[0].values[0]);
         $("#waitscreen").css({ display: 'none' });
@@ -100,17 +100,17 @@ xhr1.send();
         var words = [];
 	if (orireq.endsWith('*')) {
 		if (dictbool)
-            contents = condb.exec('SELECT * FROM taydon WHERE su LIKE \'' + orireq.slice(0,-1) + '%\' OR su LIKE \'% ' + orireq.slice(0,-1) + '%\' OR roma LIKE \'' + orireq.slice(0,-1) + '%\' OR roma LIKE \'% ' + orireq.slice(0,-1) + '%\'');
+            contents = condb.exec('SELECT * FROM taydon WHERE su LIKE \'' + orireq.slice(0,-1) + '%\' OR su LIKE \'% ' + orireq.slice(0,-1) + '%\' OR tay LIKE \'' + orireq.slice(0,-1) + '%\' OR tay LIKE \'% ' + orireq.slice(0,-1) + '%\'');
         else
             contents = condb.exec('SELECT * FROM taydon WHERE viet LIKE \'' + orireq.slice(0,-1) + '%\' OR viet LIKE \'% ' + orireq.slice(0,-1) + '%\'');
 	} else if (orireq.startsWith('*')) {
 		if (dictbool)
-            contents = condb.exec('SELECT * FROM taydon WHERE su LIKE \'%' + orireq.slice(1) + '\' OR su LIKE \'%' + orireq.slice(1) + ' %\' or roma LIKE \'%' + orireq.slice(1) + '\' OR roma LIKE \'%' + orireq.slice(1) + ' %\'');
+            contents = condb.exec('SELECT * FROM taydon WHERE su LIKE \'%' + orireq.slice(1) + '\' OR su LIKE \'%' + orireq.slice(1) + ' %\' or tay LIKE \'%' + orireq.slice(1) + '\' OR tay LIKE \'%' + orireq.slice(1) + ' %\'');
         else
             contents = condb.exec('SELECT * FROM taydon WHERE viet LIKE \'%' + orireq.slice(1) + '\' OR viet LIKE \'%' + orireq.slice(1) + ' %\'');
 	} else {
 		if (dictbool)
-            contents = condb.exec('SELECT * FROM taydon WHERE su = \'' + orireq + '\' OR roma = \'' + orireq + '\' OR nom LIKE \'%' + orireq + '%\' UNION ALL SELECT * FROM taydon WHERE su LIKE \'% ' + orireq + ' %\' OR su LIKE \'' + orireq + ' %\' OR su LIKE \'% ' + orireq + '\' OR roma LIKE \'% ' + orireq + ' %\' OR roma LIKE \'' + orireq + ' %\' OR roma LIKE \'% ' + orireq + '\'');
+            contents = condb.exec('SELECT * FROM taydon WHERE su = \'' + orireq + '\' OR tay = \'' + orireq + '\' OR nom LIKE \'%' + orireq + '%\' UNION ALL SELECT * FROM taydon WHERE su LIKE \'% ' + orireq + ' %\' OR su LIKE \'' + orireq + ' %\' OR su LIKE \'% ' + orireq + '\' OR tay LIKE \'% ' + orireq + ' %\' OR tay LIKE \'' + orireq + ' %\' OR tay LIKE \'% ' + orireq + '\'');
         else
             contents = condb.exec('SELECT * FROM taydon WHERE viet = \'' + orireq + '\' UNION ALL SELECT * FROM taydon WHERE viet LIKE \'% ' + orireq + ' %\' OR viet LIKE \'' + orireq + ' %\' OR viet LIKE \'% ' + orireq + '\'');
 	}
@@ -118,25 +118,11 @@ xhr1.send();
         if (contents.length != 0) {
             contents[0].values.forEach(function (word) {
                 var newgloss = {
-                    nom: (word[0] != null) ? word[0] : "",
-                    su: (word[1] != null) ? word[1] : "",
-                    roma: (word[2] != null) ? word[2] : "",
-                    ety: (word[3] != null) ? word[3] : "",
-                    viet: (word[4] != null) ? word[4] : "",
-                    meanings: []
+                    su: (word[0] != null) ? word[0] : "",
+                    tay: (word[1] != null) ? word[1] : "",
+                    viet: (word[2] != null) ? word[2] : "",
+                    siam: (word[3] != null) ? word[3] : ""
                 }
-                var means = word[5].split("+");
-                means.forEach(function (mean) {
-                    var explaination = mean.split("@");
-                    var examples = [];
-                    if (explaination.length > 1) {
-                        for (var i = 1; i < explaination.length; i++) {
-                            var example = explaination[i].split(":");
-                            examples.push({ oriEg: example[0], vietEg: example[1] });
-                        }
-                    }
-                    newgloss.meanings.push({ mean: explaination[0], examples: examples });
-                });
                 words.push(newgloss);
             });
         }
@@ -144,14 +130,10 @@ xhr1.send();
         if (words != null) {
             var mainstr = "";
             for (var i=0; i<words.length; i++) {
-			    mainstr += "<div class='Home_card'><h1 class='textpad'><a class='nomblock' style='font-weight: normal;cursor: pointer;color: #ff0000;' onclick=cognates('"+words[i].nom+"')>◂</a><a style='font-weight: normal;font-size: 6rem;'>" + words[i].nom + "</a>&nbsp;&nbsp;<a style='color: #fff; font-weight: normal'>" + words[i].su + "</a>&nbsp;&nbsp;"+"<a style='font-size: 3rem'>" + words[i].roma + "</a>&nbsp;&nbsp;"+"<a style='color: #84ff8d;font-size: 2rem; font-weight: normal'>" + words[i].ety.replace("T:", "Proto-Tai: ").replace("Vietic:", "Proto-Vietic: ").replace("VN:", "Việt: ").replace("AV:", "Việt cổ đại: ") + "</a>&nbsp;&nbsp;<a class='readblock' style='cursor: pointer;color: #31d0f5' onclick=phonetics('"+words[i].su+"')>🔊</a></h1>";
-                for (var j=0; j<words[i].meanings.length; j++) {
-                    mainstr += "<br/><p class='Home_description'>➢&nbsp;&nbsp;&nbsp;&nbsp;" + words[i].meanings[j].mean + "</p><div>";
-                    for (var k=0; k<words[i].meanings[j].examples.length; k++) {
-                        mainstr += "<div><p class='textpad'>" + words[i].meanings[j].examples[k].oriEg.replace(/~/g, "<a>" + words[i].su + "</a>") + "</p><p>&rarr; " + words[i].meanings[j].examples[k].vietEg + "</p></div>";
-                    }
-                    mainstr += "</div>";
-                }
+			    mainstr += "<div class='Home_card'><h1 class='textpad'><a style='color: #fff; font-weight: normal'>" + words[i].su + "</a>&nbsp;&nbsp;"+"<a style='font-size: 3rem'>" + words[i].tay + "</a>&nbsp;&nbsp;"+"<a class='readblock' style='cursor: pointer;color: #31d0f5' onclick=phonetics('"+words[i].su+"')>🔊</a></h1>";
+                
+		    
+                mainstr += "<br/><p class='Home_description'>➢&nbsp;&nbsp;&nbsp;&nbsp;" + words[i].siam + "</p><div>";
                 mainstr += "</div>";
             }
             document.getElementById("maincontent").innerHTML =  (mainstr);
